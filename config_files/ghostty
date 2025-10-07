@@ -1,0 +1,17 @@
+font-family = "JetBrainsMono Nerd Font"
+font-size = 18
+theme = catppuccin-mocha
+macos-titlebar-style = transparent
+
+# Visual effects
+background-opacity = 0.85
+background-blur-radius = 30
+window-padding-x = 15
+window-padding-y = 15
+
+# Cursor effects  
+cursor-style = block
+cursor-opacity = 0.8
+
+# Font ligatures for programming symbols
+font-feature = "+liga"
