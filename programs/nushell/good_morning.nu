@@ -17,6 +17,9 @@ echo pwd
 print "🔄 Syncing workstations..."
 rsync -av --delete --exclude='.*' ($env.CANONICAL_WORKSTATION + "/") $env.PUBLIC_WORKSTATION
 
+
+let $diff = jj diff --no-pager
+if ($diff | str length) > 0 {
 print "🤖 Generating commit summary..."
 let $commit_summary = (jj show | claude --print "Summarise this jj commit")
 
@@ -31,7 +34,7 @@ jj git push
 
 print "✨ Creating new working branch..."
 jj new
-
+}
 
 
 #~/.bin/coder.sh
