@@ -19,7 +19,7 @@ rsync -av --delete --exclude='.*' ($env.CANONICAL_WORKSTATION + "/") $env.PUBLIC
 
 
 let $diff = jj diff --no-pager
-print "diff length ($diff | str length)"
+print $"diff length ($diff | str length)"
 if ($diff | str length) > 0 {
 print "🤖 Generating commit summary..."
 let $commit_summary = (jj show | claude --print "Summarise this jj commit")
