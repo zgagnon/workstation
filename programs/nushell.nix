@@ -125,6 +125,7 @@
             $env.PATH = ($env.PATH | split row (char esep) |
               append ($nu.home-path + '/.emacs.d/bin') |
               append ($nu.home-path + '/.npm-global/bin'))
+            $env.HOME_MANAGER_CONFIG = "${home-config}"
 
             alias darwinswitch = sudo darwin-rebuild switch --flake /Users/zell/git/mo/workstations/home/zgagnon#zell-mo
 
