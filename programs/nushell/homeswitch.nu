@@ -39,6 +39,11 @@ if ($ssh_config_path | path exists) {
     rm $ssh_config_path
 }
 
+if ($env.HOME_MANAGER_CONFIG? | is-empty) {
+    print "❌ HOME_MANAGER_CONFIG environment variable not set!"
+    exit 1
+}
+
 print "🏗️  Building your shiny new home with home-manager..."
 # Run home-manager switch
 ^home-manager switch --flake $env.HOME_MANAGER_CONFIG

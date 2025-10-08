@@ -137,7 +137,6 @@
             tab name="Local" {
                 pane {
                     command "nu"
-                    args "--login"
                 }
             }
         }
@@ -154,6 +153,14 @@
         # Launch zellij with coder layout
         zellij --layout coder
       '';
+      executable = true;
+    };
+    ".bin/homeswitch" = {
+      source = ./../programs/nushell/homeswitch.nu;
+      executable = true;
+    };
+    ".bin/good_morning" = {
+      source = ./../programs/nushell/good_morning.nu;
       executable = true;
     };
     ".gitignore_global" = {
