@@ -8,18 +8,29 @@ print "📥 Fetching latest changes..."
 jj git fetch
 
 print "🌱 Creating new branch from main..."
-jj new main
+let $rebase_result = (jj rebase -d main@origin | complete)
+if $rebase_result.exit_code != 0 {
+    print "❌ Rebase conflicts detected! Aborting script."
+    print "Please resolve conflicts manually and run again."
+    exit 1
+}
 
+print "❄️ Updating system flake..."
 nix flake update
 if (jj diff flake.lock --no-pager | str length) > 0 {
+    print "🔄 System flake changed, rebuilding Darwin..."
     sudo darwin-rebuild switch
 }
 
+print "🏠 Updating home-manager..."
 do {
-cd home-manager
-nix flake update
+    cd home-manager
+    nix flake update
     if (jj diff flake.lock --no-pager | str length) > 0 {
+        print "🔄 Home flake changed, running homeswitch..."
         nu ($env.CANONICAL_WORKSTATION + "/programs/nushell/homeswitch.nu")
+    } else {
+        print "✅ Home flake unchanged, skipping homeswitch"
     }
 }
 
@@ -27,6 +38,7 @@ print "📤 Switching to public workstation..."
 cd $env.PUBLIC_WORKSTATION
 echo pwd
 
+jj new main
 print "🔄 Syncing workstations..."
 rsync -av --delete --exclude='.*' ($env.CANONICAL_WORKSTATION + "/") $env.PUBLIC_WORKSTATION
 
@@ -50,4 +62,4 @@ if ($diff | str length) > 0 {
     print "No diff in workstations, skipping"
 }
 
-#~/.bin/coder.sh
+~/.bin/coder.sh
