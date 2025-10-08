@@ -112,15 +112,23 @@
     ".config/zellij/layouts/coder.kdl" = {
       text = ''
         layout {
-            pane split_direction="vertical" {
-                pane {
-                    command "ssh"
-                    args "ZellVM.coder" "-t" "nu"
+            tab name="Remote" {
+                pane split_direction="vertical" {
+                    pane {
+                        command "ssh"
+                        args "ZellVM.coder" "-t" "nu"
+                    }
+                    pane {
+                        command "ssh"
+                        args "ZellVM.coder" "-t" "nu"
+                        focus true
+                    }
                 }
+            }
+            tab name="Local" {
                 pane {
-                    command "ssh"
-                    args "ZellVM.coder" "-t" "nu"
-                    focus true
+                    command "nu"
+                    args "--login"
                 }
             }
         }
