@@ -126,7 +126,10 @@
         append ($nu.home-path + '/.npm-global/bin'))
       $env.HOME_MANAGER_CONFIG = "${home-config}"
 
-      alias darwinswitch = sudo darwin-rebuild switch --flake /Users/zell/git/mo/workstations/home/zgagnon#zell-mo
+      def darwinswitch [] {
+        cd /Users/zell/git/mo/workstations/home/zgagnon
+        sudo darwin-rebuild switch --flake .#zell-mo
+      }
       alias homeswitch = nu ($nu.home-path + "/.bin/homeswitch")
       alias good_morning = nu ($nu.home-path + "/.bin/good_morning")
 

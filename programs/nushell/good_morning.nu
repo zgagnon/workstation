@@ -2,7 +2,7 @@
 
 print "🏠 Switching to canonical workstation..."
 cd $env.CANONICAL_WORKSTATION
-echo pwd
+print $"📁 Now in: ($env.PWD)"
 
 print "📥 Fetching latest changes..."
 jj git fetch
@@ -19,7 +19,7 @@ print "❄️ Updating system flake..."
 nix flake update
 if (jj diff flake.lock --no-pager | str length) > 0 {
     print "🔄 System flake changed, rebuilding Darwin..."
-    sudo darwin-rebuild switch
+    sudo darwin-rebuild switch --flake .#zell-mo
 }
 
 print "🏠 Updating home-manager..."
