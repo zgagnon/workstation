@@ -96,7 +96,6 @@
           ./../programs/direnv.nix
           ./../programs/nushell.nix
           ./../programs/raycast.nix
-          ./../programs/ssh.nix
           ./../programs/starship.nix
           ./../programs/zsh.nix
         ];
