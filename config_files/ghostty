@@ -1,6 +1,6 @@
 font-family = "JetBrainsMono Nerd Font"
 font-size = 18
-theme = Grey Green
+theme = Catppuccin Mocha
 macos-titlebar-style = transparent
 
 # Visual effects

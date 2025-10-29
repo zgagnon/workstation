@@ -46,7 +46,7 @@ if ($env.HOME_MANAGER_CONFIG? | is-empty) {
 
 print "🏗️  Building your shiny new home with home-manager..."
 # Run home-manager switch
-^home-manager switch --flake $env.HOME_MANAGER_CONFIG
+^home-manager switch --flake $env.HOME_MANAGER_CONFIG --show-trace
 
 print "🔧 Making the new SSH config less stubborn (removing read-only)..."
 # Copy the read-only nix config to make it writable and add coder section back
