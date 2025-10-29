@@ -17,6 +17,8 @@
       allowUnfreePredicate = (_: true); # Optional: allows all unfree packages
     };
   };
+
+  fonts.fontconfig.enable = true;
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
   #  home.username = "zell";
@@ -40,7 +42,7 @@
         owner = "steveyegge";
         repo = "beads";
         rev = "main";
-        sha256 = "RyFWXOPLjkJgvWLZiodEq269gF9UdZ7JRdarEY49iHs=";
+        sha256 = "gZ7+vnccJWlcoH4BJodzigMCgG/sZluobWrJYG/kM7Y=";
       };
       beads = pkgs.callPackage "${beadsSrc}/default.nix" { self = beadsSrc; };
       claude-code = pkgs.callPackage ./../packages/claude-code.nix { };
@@ -56,7 +58,7 @@
       _1password-cli
       action-validator
       bat
-      beads
+      # beads
       beam27Packages.elixir-ls
       bun
       cabal-install
@@ -81,6 +83,8 @@
       k9s
       kubectx
       kubernetes-helm
+      nerd-fonts.fira-code
+      nerd-fonts.jetbrains-mono
       nil
       nixfmt-rfc-style
       nodePackages.js-beautify
@@ -176,6 +180,18 @@
       text = ''
         # Global ignore for jj completions
         completions-jj.nu
+      '';
+    };
+    ".config/autostart/ulauncher.desktop" = {
+      text = ''
+        [Desktop Entry]
+        Type=Application
+        Exec=ulauncher
+        Hidden=false
+        NoDisplay=false
+        X-GNOME-Autostart-enabled=true
+        Name=Ulauncher
+        Comment=Application launcher
       '';
     };
   };

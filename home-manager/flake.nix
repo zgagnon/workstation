@@ -46,5 +46,6 @@
       homeConfigurations."zell-mo" = import ./machines/work-darwin.nix { inherit sysPkgs home-manager; };
 
       homeConfigurations."coder" = import ./machines/work-coder.nix { inherit sysPkgs home-manager; };
+      homeConfigurations."zoe" = import ./machines/home-nixos.nix { inherit sysPkgs home-manager; };
     };
 }
