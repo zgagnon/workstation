@@ -124,7 +124,7 @@
       $env.PATH = ($env.PATH | split row (char esep) |
         append ($nu.home-path + '/.emacs.d/bin') |
         append ($nu.home-path + '/.npm-global/bin'))
-      $env.HOME_MANAGER_CONFIG = "${home-config}"
+      $env.HOME_MANAGER_CONFIG = "${home-config}#zell-mo"
 
       def darwinswitch [] {
         cd /Users/zell/git/mo/workstations/home/zgagnon

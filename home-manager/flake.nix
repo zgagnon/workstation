@@ -42,7 +42,7 @@
         buildInputs = [ home-manager.packages.x64_64-linux.home-manager ];
       };
 
-      homeConfigurations."zell" = home-manager.lib.homeManagerConfiguration rec {
+      homeConfigurations."zell-mo" = home-manager.lib.homeManagerConfiguration rec {
         pkgs = sysPkgs "aarch64-darwin";
 
         # Specify your home configuration modules here, for example,
