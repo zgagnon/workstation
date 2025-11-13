@@ -36,58 +36,23 @@
             })
           ];
         };
+      paths = import ../nix-library/paths.nix {};
     in
     {
       devShells.x64_64-linux.default = (sysPkgs "x86_64-linux").mkShell {
         buildInputs = [ home-manager.packages.x64_64-linux.home-manager ];
       };
 
-      homeConfigurations."zell-mo" = home-manager.lib.homeManagerConfiguration rec {
-        pkgs = sysPkgs "aarch64-darwin";
+      homeConfigurations."zell" = import ./machines/work-darwin.nix {inherit sysPkgs home-manager;};
+      homeConfigurations."zell-mo" = import ./machines/work-darwin.nix {inherit sysPkgs home-manager;};
 
-        # Specify your home configuration modules here, for example,
-        # the path to your home.nix.
-        modules = [
-          ./../programs/aerospace.nix
-          ./../programs/atuin.nix
-          ./../programs/carapace.nix
-          ./../programs/direnv.nix
-          ./../programs/git.nix
-          ./../programs/oneP.nix
-          ./../programs/jj.nix
-          ./../programs/nushell.nix
-          ./../programs/raycast.nix
-          ./../programs/ssh.nix
-          ./../programs/starship.nix
-          ./../programs/zoxide.nix
-          ./../programs/zsh.nix
-          ./home.nix
-        ];
-
-        # Optionally use extraSpecialArgs
-        # to pass through arguments to home.nix
-        extraSpecialArgs = {
-          inherit home-manager;
-          arch = "aarch64-darwin";
-          user = "zell";
-          home = "/Users/zell";
-          email = "zoe@zgagnon.com";
-          home-config = "/Users/zell/git/mo/workstations/home/zgagnon/home-manager";
-          uniquePkgs = with pkgs; [
-            cachix
-            direnv
-            emacs
-            anki-bin
-          ];
-        };
-      };
 
       homeConfigurations."coder" = home-manager.lib.homeManagerConfiguration rec {
         pkgs = sysPkgs "x86_64-linux";
 
         # Specify your home configuration modules here, for example,
         # the path to your home.nix.
-        modules = [
+        modules =  [
           ./home.nix
           ./../programs/atuin.nix
           ./../programs/carapace.nix

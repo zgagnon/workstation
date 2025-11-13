@@ -36,7 +36,13 @@
   # environment.
   home.packages =
     let
-      beads = import ../packages/beads.nix {inherit pkgs;};
+      beadsSrc = pkgs.fetchFromGitHub {
+        owner = "steveyegge";
+        repo = "beads";
+        rev = "main";
+        sha256 = "RyFWXOPLjkJgvWLZiodEq269gF9UdZ7JRdarEY49iHs=";
+      };
+      beads = pkgs.callPackage "${beadsSrc}/default.nix" { self = beadsSrc; };
       gdk = pkgs.google-cloud-sdk.withExtraComponents (
         with pkgs.google-cloud-sdk.components;
         [

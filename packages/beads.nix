@@ -4,7 +4,9 @@ let
         owner = "zgagnon";
         repo = "beads";
         rev = "main";
-        sha256 = "sha256-Yww6ke7YM8eY9RSD4jSQJ9rt3Ioo5pUWe1wb+jN2rng=";
+        sha256 = "
+sha256-hWhvXq+xOTktjwsoXZf/gT4/2jIT1wJa4+JQ8CE4SJE=
+  ";
       };in
 
    pkgs.callPackage "${beadsSrc}/default.nix" { self = beadsSrc; }
