@@ -86,14 +86,13 @@
       nodejs
       obsidian
       pandoc
-      pgadmin4-desktopmode
       ripgrep
-      rlama
       sc-im
       shellcheck
       shfmt
       stgit
       stylelint
+      tree
       tree-sitter
       tree-sitter-grammars.tree-sitter-heex
       uv
@@ -205,13 +204,6 @@
 
   services.syncthing = {
     enable = true;
-  };
-
-  programs.git = {
-    enable = true;
-    extraConfig = {
-      core.excludesfile = "~/.gitignore_global";
-    };
   };
 
   #Fasder configuration

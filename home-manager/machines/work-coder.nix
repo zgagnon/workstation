@@ -1,42 +1,38 @@
+
 {sysPkgs, home-manager}:
 let
 paths = import ../../nix-library/paths.nix;
 in
 home-manager.lib.homeManagerConfiguration rec {
-        pkgs = sysPkgs "aarch64-darwin";
+        pkgs = sysPkgs "x86_64-linux";
 
         # Specify your home configuration modules here, for example,
         # the path to your home.nix.
-        modules = paths.withBasePath  ./.. [
-"./../programs/aerospace.nix"
+        modules =  paths.withBasePath ./.. [
+"/home.nix"
 "./../programs/atuin.nix"
 "./../programs/carapace.nix"
-"./../programs/direnv.nix"
 "./../programs/git.nix"
-"./../programs/oneP.nix"
 "./../programs/jj.nix"
+"./../programs/direnv.nix"
 "./../programs/nushell.nix"
 "./../programs/raycast.nix"
-"./../programs/ssh.nix"
 "./../programs/starship.nix"
-"./../programs/zoxide.nix"
 "./../programs/zsh.nix"
-"/home.nix"
         ];
 
         # Optionally use extraSpecialArgs
         # to pass through arguments to home.nix
         extraSpecialArgs = {
           inherit home-manager;
-          arch = "aarch64-darwin";
-          user = "zell";
-          home = "/Users/zell";
+          arch = "x86_64-linux";
+          user = "coder";
+          home = "/home/coder";
           email = "zoe@zgagnon.com";
-          home-config = "/Users/zell/git/mo/workstations/home/zgagnon/home-manager";
+          home-config = "/home/coder/workspace/workstations/home/zgagnon/home-manager";
           uniquePkgs = with pkgs; [
-            direnv
             emacs
-            anki-bin
           ];
         };
-      }
+      };
+    }

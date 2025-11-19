@@ -9,9 +9,12 @@ let
 in
 {
   programs.git = {
-    aliases = aliases;
     enable = true;
-    extraConfig = {
+    settings = {
+      user.name = "zgagnon";
+      user.email = email;
+      core.excludesfile = "~/.gitignore_global";
+      aliases = aliases;
       gpg = {
         format = "ssh";
       };
@@ -48,18 +51,16 @@ in
     ignores = [
       "completions-jj.nu"
       # Add other global ignores here if needed
-      ".DS_Store"        # macOS
-      "Thumbs.db"        # Windows
-      "*.swp"            # Vim swap files
-      "*.swo"            # Vim swap files
-      "*~"               # Backup files
+      ".DS_Store" # macOS
+      "Thumbs.db" # Windows
+      "*.swp" # Vim swap files
+      "*.swo" # Vim swap files
+      "*~" # Backup files
     ];
-    userName = "zgagnon";
-    userEmail = email;
 
-#    signing = {
-#      key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBw43UgKpS9/bxfyP9y8R0enylSCNdVc5OgPKB64IJGC";
-#      signByDefault = true;
-#    };
+    #    signing = {
+    #      key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBw43UgKpS9/bxfyP9y8R0enylSCNdVc5OgPKB64IJGC";
+    #      signByDefault = true;
+    #    };
   };
 }

@@ -138,6 +138,10 @@
         $env.COLORTERM = "truecolor"
       }
 
+      def trie [package: string, args = ""] {
+          nix run nixpkgs#"$package" -- $args
+      }
+
       def edit [file?: string] {
           emacs -nw
       }
