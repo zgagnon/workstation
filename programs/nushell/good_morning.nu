@@ -3,13 +3,7 @@
 let MINE = ($env.HOME + "/config")
 let WORK = ($env.HOME + "/workspace/workstations/home/zgagnon")
 
-print "🏠 Switching to my workstation..."
-cd $MINE
-print $"📁 Now in: ($env.PWD)"
-
-print "📥 Fetching latest changes..."
-jj git fetch
-
+# start update process by cleaning out old nix tarballs
 # Clean old entries from Nix tarball cache (keep last 30 days)
 print "🧹 Cleaning old Nix tarball cache entries..."
 let cache_path = ($env.HOME + "/.cache/nix/tarball-cache")
@@ -22,19 +16,28 @@ if ($cache_path | path exists) {
     print "✓ No tarball cache to clean"
 }
 
-print "🌱 Creating new branch from main..."
-let $rebase_result = (jj rebase -d main@origin | complete)
-if $rebase_result.exit_code != 0 {
-    print "❌ Rebase conflicts detected! Aborting script."
-    print "Please resolve conflicts manually and run again."
-    exit 1
-}
+#next -> pull from my own source. This is the system of record
+print "🏠 Switching to my workstation..."
+cd $MINE
+print $"📁 Now in: ($env.PWD)"
 
-print "❄️ Updating system flake..."
-nix flake update
-if (jj diff flake.lock --no-pager | str length) > 0 {
-    print "🔄 System flake changed, rebuilding Darwin..."
-    sudo darwin-rebuild switch --flake .#zell-mo
+print "📥 Fetching latest changes..."
+jj git fetch
+
+#Put any local changes back on main
+print "🌱 Creating new branch from main..."
+let $rebase_result = (jj rebase -d main@origin | complete )
+if $rebase_result exit_code!=0{print "❌ Rebase conflicts detected! Aborting script."
+print "Please resolve conflicts manually and run again."
+exit 1
+}print "❄️ Updating system flake..."
+nix flake
+update
+
+if (jj diff flake.lock --no-pager | str length )>0
+{
+  print "🔄 System flake changed, rebuilding Darwin..."
+  sudo darwin-rebuild switch --flake .#zell-mo
 }
 
 print "🏠 Updating home-manager..."
@@ -49,6 +52,7 @@ do {
     }
 }
 
+#update work
 print "📤 Switching to work workstation..."
 cd $WORK
 echo pwd
