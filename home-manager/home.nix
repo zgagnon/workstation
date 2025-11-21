@@ -57,6 +57,7 @@
       bat
       beads
       beam27Packages.elixir-ls
+      bun
       cabal-install
       claude-code
       cmake
