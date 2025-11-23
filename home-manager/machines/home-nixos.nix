@@ -18,6 +18,7 @@ home-manager.lib.homeManagerConfiguration rec {
     "./../programs/raycast.nix"
     "./../programs/starship.nix"
     "./../programs/zsh.nix"
+    "./../programs/hyprland.nix"
   ];
 
   # Optionally use extraSpecialArgs
@@ -30,7 +31,10 @@ home-manager.lib.homeManagerConfiguration rec {
     email = "zoe@zgagnon.com";
     home-config = "/home/zoe/workstation/home-manager/";
     uniquePkgs = with pkgs; [
+      discord
+      slack
       emacs
+      kitty
     ];
   };
 }

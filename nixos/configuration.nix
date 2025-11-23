@@ -9,7 +9,6 @@
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
   ];
-
   # enable modern nix
   nix.settings.experimental-features = [
     "nix-command"
@@ -61,7 +60,6 @@
     enable = true;
     wayland.enable = true;
     settings = {
-
       X11 = {
         EnableHiDPI = true;
         ServerArguments = "-dpi 192";
@@ -72,7 +70,7 @@
     };
   };
   services.xserver.desktopManager.gnome.enable = true;
-  programs.sway.enable = true;
+  programs.hyprland.enable = true;
   services.xserver.displayManager = {
     defaultSession = "gnome-wayland";
     session = [
@@ -84,10 +82,10 @@
         manage = "desktop";
       }
       {
-        name = "sway";
-        start = "${pkgs.sway}/bin/sway";
-        desktopName = "Sway";
-        description = "Sway Window manager";
+        name = "hyprland";
+        start = "${pkgs.hyprland}/bin/sway";
+        desktopName = "Hyprland";
+        description = "Hyprland Window manager";
         manage = "window";
       }
     ];
@@ -139,6 +137,7 @@
       "wheel"
     ];
     packages = with pkgs; [
+      ghostty
       #  thunderbird
     ];
   };
@@ -176,6 +175,10 @@
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
+
+  # Accessibility
+  # Disable Orca screen reader since Gnome activates it by default for _all_ windowers
+  services.orca.enable = false;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

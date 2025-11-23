@@ -85,6 +85,7 @@
       kubernetes-helm
       nerd-fonts.fira-code
       nerd-fonts.jetbrains-mono
+      nufmt
       nil
       nixfmt-rfc-style
       nodePackages.js-beautify
