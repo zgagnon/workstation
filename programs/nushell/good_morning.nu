@@ -7,6 +7,18 @@ print $"📁 Now in: ($env.PWD)"
 print "📥 Fetching latest changes..."
 jj git fetch
 
+# Clean old entries from Nix tarball cache (keep last 30 days)
+print "🧹 Cleaning old Nix tarball cache entries..."
+let cache_path = ($env.HOME + "/.cache/nix/tarball-cache")
+if ($cache_path | path exists) {
+    do --ignore-errors {
+        git -C $cache_path gc --prune=30.days.ago --quiet
+        print "✅ Tarball cache cleaned (kept entries from last 30 days)"
+    }
+} else {
+    print "✓ No tarball cache to clean"
+}
+
 print "🌱 Creating new branch from main..."
 let $rebase_result = (jj rebase -d main@origin | complete)
 if $rebase_result.exit_code != 0 {
