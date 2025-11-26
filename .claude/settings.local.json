@@ -6,5 +6,9 @@
     ],
     "deny": [],
     "ask": []
-  }
+  },
+  "enabledMcpjsonServers": [
+    "bun-sandbox"
+  ],
+  "enableAllProjectMcpServers": true
 }
