@@ -43,6 +43,7 @@
         sha256 = "RyFWXOPLjkJgvWLZiodEq269gF9UdZ7JRdarEY49iHs=";
       };
       beads = pkgs.callPackage "${beadsSrc}/default.nix" { self = beadsSrc; };
+      claude-code = pkgs.callPackage ./../packages/claude-code.nix { };
       gdk = pkgs.google-cloud-sdk.withExtraComponents (
         with pkgs.google-cloud-sdk.components;
         [
