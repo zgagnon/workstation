@@ -32,7 +32,7 @@ home-manager.lib.homeManagerConfiguration rec {
           user = "zell";
           home = "/Users/zell";
           email = "zoe@zgagnon.com";
-          home-config = "/Users/zell/git/mo/workstations/home/zgagnon/home-manager";
+          home-config = "/Users/zell/config/home-manager";
           uniquePkgs = with pkgs; [
             direnv
             emacs

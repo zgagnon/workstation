@@ -1,7 +1,10 @@
 #!/usr/bin/env nu
 
-print "🏠 Switching to canonical workstation..."
-cd $env.CANONICAL_WORKSTATION
+let MINE = ($env.HOME + "/config")
+let WORK = ($env.HOME + "/workspace/workstations/home/zgagnon")
+
+print "🏠 Switching to my workstation..."
+cd $MINE
 print $"📁 Now in: ($env.PWD)"
 
 print "📥 Fetching latest changes..."
@@ -40,19 +43,19 @@ do {
     nix flake update
     if (jj diff flake.lock --no-pager | str length) > 0 {
         print "🔄 Home flake changed, running homeswitch..."
-        nu ($env.CANONICAL_WORKSTATION + "/programs/nushell/homeswitch.nu")
+        nu ($MINE + "/programs/nushell/homeswitch.nu")
     } else {
         print "✅ Home flake unchanged, skipping homeswitch"
     }
 }
 
-print "📤 Switching to public workstation..."
-cd $env.PUBLIC_WORKSTATION
+print "📤 Switching to work workstation..."
+cd $WORK
 echo pwd
 
 jj new main
 print "🔄 Syncing workstations..."
-rsync -av --delete --exclude='.*' ($env.CANONICAL_WORKSTATION + "/") $env.PUBLIC_WORKSTATION
+rsync -av --delete --exclude='.*' ($MINE + "/") $WORK
 
 let $diff = jj diff --no-pager
 if ($diff | str length) > 0 {
