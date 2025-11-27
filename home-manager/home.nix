@@ -173,6 +173,10 @@
       source = ./../programs/nushell/homeswitch.nu;
       executable = true;
     };
+    ".bin/prompt" = {
+      source = ./../programs/nushell/prompt.nu;
+      executable = true;
+    };
     ".bin/good_morning" = {
       source = ./../programs/nushell/good_morning.nu;
       executable = true;
@@ -227,7 +231,7 @@
 
   #Fasder configuration
   programs.fasder = {
-    enable = true;
+    enable = false;
     enableAliases = true;
     enableInteractiveSelection = true;
     enableTracking = true;
