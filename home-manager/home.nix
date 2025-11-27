@@ -231,7 +231,7 @@
 
   #Fasder configuration
   programs.fasder = {
-    enable = false;
+    enable = true;
     enableAliases = true;
     enableInteractiveSelection = true;
     enableTracking = true;

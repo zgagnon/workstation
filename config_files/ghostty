@@ -15,3 +15,6 @@ cursor-opacity = 0.8
 
 # Font ligatures for programming symbols
 font-feature = "+liga"
+
+# login shell
+command = nu

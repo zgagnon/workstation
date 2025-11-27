@@ -19,7 +19,6 @@ def vm [] {
   ~/.bin/coder.sh
 }
 
-
 jj util completion nushell | save -f completions-jj.nu
 
 if ("~/.ai.env.toml" | path expand | path exists) {
