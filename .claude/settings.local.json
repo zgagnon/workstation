@@ -2,13 +2,15 @@
   "permissions": {
     "allow": [
       "Skill(using-jj)",
-      "Skill(superpowers:writing-skills)"
+      "Skill(superpowers:writing-skills)",
+      "WebSearch",
+      "WebFetch(domain:github.com)"
     ],
     "deny": [],
     "ask": []
   },
+  "enableAllProjectMcpServers": true,
   "enabledMcpjsonServers": [
     "bun-sandbox"
-  ],
-  "enableAllProjectMcpServers": true
+  ]
 }

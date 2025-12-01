@@ -27,17 +27,21 @@ jj git fetch
 #Put any local changes back on main
 print "🌱 Creating new branch from main..."
 let $rebase_result = (jj rebase -d main@origin | complete )
-if $rebase_result exit_code!=0{print "❌ Rebase conflicts detected! Aborting script."
-print "Please resolve conflicts manually and run again."
-exit 1
-}print "❄️ Updating system flake..."
-nix flake
-update
-
-if (jj diff flake.lock --no-pager | str length )>0
-{
-  print "🔄 System flake changed, rebuilding Darwin..."
-  sudo darwin-rebuild switch --flake .#zell-mo
+if $rebase_result.exit_code != 0 {
+    print "❌ Rebase conflicts detected! Aborting script."
+    print "Please resolve conflicts manually and run again."
+    exit 1
+}
+print "❄️ Updating darwin flake..."
+do {
+    cd ($MINE + "/darwin")
+    nix flake update
+    if (jj diff flake.lock --no-pager | str length) > 0 {
+        print "🔄 Darwin flake changed, rebuilding Darwin..."
+        sudo darwin-rebuild switch --flake .#zell-mo
+    } else {
+        print "✅ Darwin flake unchanged, skipping rebuild"
+    }
 }
 
 print "🏠 Updating home-manager..."
@@ -64,7 +68,18 @@ rsync -av --delete --exclude='.*' ($MINE + "/") $WORK
 let $diff = jj diff --no-pager
 if ($diff | str length) > 0 {
     print "🤖 Generating commit summary..."
-    let $commit_summary = (jj show | claude --print "Summarise this jj commit")
+    let $commit_summary = (jj show | claude --print "Create a git commit message following these rules:
+1. Subject line: max 50 chars (72 hard limit), capitalize first word, no period at end
+2. Use imperative mood (e.g., 'Add feature' not 'Added feature')
+3. Test: 'If applied, this commit will [your subject]' should read correctly
+4. Separate subject from body with blank line
+5. Body: wrap at 72 chars, explain WHAT and WHY (not how)
+6. Focus on the changes shown in the diff
+
+Format:
+<Subject line>
+
+<Body explaining what changed and why>")
 
     print "📝 Updating commit description..."
     jj describe -m $commit_summary

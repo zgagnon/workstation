@@ -42,7 +42,7 @@
         owner = "steveyegge";
         repo = "beads";
         rev = "main";
-        sha256 = "gZ7+vnccJWlcoH4BJodzigMCgG/sZluobWrJYG/kM7Y=";
+        sha256 = "oeu3weHc5pf2fXkBURWaFtkJE8sS89Ug8Z3PwB/Ozyk=";
       };
       beads = pkgs.callPackage "${beadsSrc}/default.nix" { self = beadsSrc; };
       claude-code = pkgs.callPackage ./../packages/claude-code.nix { };
@@ -58,7 +58,7 @@
       _1password-cli
       action-validator
       bat
-      # beads
+      beads
       beam27Packages.elixir-ls
       bun
       cabal-install
@@ -99,6 +99,7 @@
       shfmt
       stgit
       stylelint
+      topiary
       tree
       tree-sitter
       tree-sitter-grammars.tree-sitter-heex
@@ -229,6 +230,67 @@
     enable = true;
   };
 
+  # Zellij configuration
+  programs.zellij = {
+    enable = true;
+    settings = {
+      theme = "biscotty";
+      default_mode = "normal";
+      default_shell = "nu";
+      themes = {
+        biscotty = {
+          fg = "#3a3a3a";
+          bg = "#f5ede5";
+          black = "#3a3a3a";
+          red = "#d14830";
+          green = "#00875f";
+          yellow = "#d7875f";
+          blue = "#3d5f9a";
+          magenta = "#7a4a94";
+          cyan = "#00875f";
+          white = "#f5ede5";
+          orange = "#d7875f";
+
+          ribbon_selected = {
+            base = [ 61 95 154 ];      # steel blue (#3d5f9a)
+            background = [ 245 237 229 ]; # cream (#f5ede5)
+            emphasis_0 = [ 209 72 48 ];   # red/numbers
+            emphasis_1 = [ 0 135 95 ];    # green/strings
+            emphasis_2 = [ 215 135 95 ];  # orange/definitions
+            emphasis_3 = [ 122 74 148 ];  # purple/constants
+          };
+
+          ribbon_unselected = {
+            base = [ 58 58 58 ];         # dark gray (#3a3a3a)
+            background = [ 237 228 216 ]; # slightly darker cream (#ede4d8)
+            emphasis_0 = [ 209 72 48 ];   # red/numbers
+            emphasis_1 = [ 0 135 95 ];    # green/strings
+            emphasis_2 = [ 215 135 95 ];  # orange/definitions
+            emphasis_3 = [ 122 74 148 ];  # purple/constants
+          };
+
+          frame_selected = {
+            base = [ 61 95 154 ];      # steel blue (#3d5f9a)
+            background = [ 245 237 229 ]; # cream (#f5ede5)
+            emphasis_0 = [ 209 72 48 ];   # red/numbers
+            emphasis_1 = [ 0 135 95 ];    # green/strings
+            emphasis_2 = [ 215 135 95 ];  # orange/definitions
+            emphasis_3 = [ 122 74 148 ];  # purple/constants
+          };
+
+          frame_unselected = {
+            base = [ 138 138 138 ];      # dimmed gray (#8a8a8a)
+            background = [ 245 237 229 ]; # cream (#f5ede5)
+            emphasis_0 = [ 209 72 48 ];   # red/numbers
+            emphasis_1 = [ 0 135 95 ];    # green/strings
+            emphasis_2 = [ 215 135 95 ];  # orange/definitions
+            emphasis_3 = [ 122 74 148 ];  # purple/constants
+          };
+        };
+      };
+    };
+  };
+
   #Fasder configuration
   programs.fasder = {
     enable = true;
@@ -337,6 +399,46 @@
           pkgs.git
           pkgs.openssh
           pkgs.jujutsu
+        ]
+      }:$PATH"
+      $DRY_RUN_CMD ${setupScript}
+    '';
+
+  # Activation script to setup topiary-nushell plugin
+  # Clones topiary-nushell to $XDG_CONFIG_HOME/topiary (standard location)
+  # No environment variables needed since we use the standard location
+  home.activation.setupTopiaryNushell =
+    let
+      setupScript = pkgs.writeShellScript "setup-topiary-nushell" ''
+        set -euo pipefail
+
+        TOPIARY_DIR="''${XDG_CONFIG_HOME:-$HOME/.config}/topiary"
+
+        # Setup topiary-nushell plugin
+        if [[ ! -d "$TOPIARY_DIR" ]]; then
+          echo "📥 Cloning topiary-nushell plugin to $TOPIARY_DIR..."
+          ${pkgs.git}/bin/git clone https://github.com/blindFS/topiary-nushell "$TOPIARY_DIR"
+          echo "✅ Topiary-nushell plugin installed"
+          echo "   Config file: $TOPIARY_DIR/languages.ncl"
+          echo "   Language dir: $TOPIARY_DIR/languages"
+        else
+          echo "🔄 Updating topiary-nushell plugin..."
+          cd "$TOPIARY_DIR" && ${pkgs.git}/bin/git pull
+          echo "✅ Topiary-nushell plugin updated"
+        fi
+
+        # Verify the setup
+        if [[ -f "$TOPIARY_DIR/languages.ncl" ]] && [[ -d "$TOPIARY_DIR/languages" ]]; then
+          echo "✅ Topiary-nushell setup complete"
+        else
+          echo "⚠️  Warning: Expected files not found in $TOPIARY_DIR"
+        fi
+      '';
+    in
+    config.lib.dag.entryAfter [ "writeBoundary" ] ''
+      export PATH="${
+        pkgs.lib.makeBinPath [
+          pkgs.git
         ]
       }:$PATH"
       $DRY_RUN_CMD ${setupScript}
