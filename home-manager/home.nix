@@ -38,11 +38,12 @@
   # environment.
   home.packages =
     let
+      beadsSha = "eiYt4RM2bdyR4ZAGsi72MW5t54DPgIAbuBVMlWyUb4M=";
       beadsSrc = pkgs.fetchFromGitHub {
         owner = "steveyegge";
         repo = "beads";
         rev = "main";
-        sha256 = "oeu3weHc5pf2fXkBURWaFtkJE8sS89Ug8Z3PwB/Ozyk=";
+        sha256 = beadsSha;
       };
       beads = pkgs.callPackage "${beadsSrc}/default.nix" { self = beadsSrc; };
       claude-code = pkgs.callPackage ./../packages/claude-code.nix { };
@@ -252,39 +253,135 @@
           orange = "#d7875f";
 
           ribbon_selected = {
-            base = [ 61 95 154 ];      # steel blue (#3d5f9a)
-            background = [ 245 237 229 ]; # cream (#f5ede5)
-            emphasis_0 = [ 209 72 48 ];   # red/numbers
-            emphasis_1 = [ 0 135 95 ];    # green/strings
-            emphasis_2 = [ 215 135 95 ];  # orange/definitions
-            emphasis_3 = [ 122 74 148 ];  # purple/constants
+            base = [
+              61
+              95
+              154
+            ]; # steel blue (#3d5f9a)
+            background = [
+              245
+              237
+              229
+            ]; # cream (#f5ede5)
+            emphasis_0 = [
+              209
+              72
+              48
+            ]; # red/numbers
+            emphasis_1 = [
+              0
+              135
+              95
+            ]; # green/strings
+            emphasis_2 = [
+              215
+              135
+              95
+            ]; # orange/definitions
+            emphasis_3 = [
+              122
+              74
+              148
+            ]; # purple/constants
           };
 
           ribbon_unselected = {
-            base = [ 58 58 58 ];         # dark gray (#3a3a3a)
-            background = [ 237 228 216 ]; # slightly darker cream (#ede4d8)
-            emphasis_0 = [ 209 72 48 ];   # red/numbers
-            emphasis_1 = [ 0 135 95 ];    # green/strings
-            emphasis_2 = [ 215 135 95 ];  # orange/definitions
-            emphasis_3 = [ 122 74 148 ];  # purple/constants
+            base = [
+              58
+              58
+              58
+            ]; # dark gray (#3a3a3a)
+            background = [
+              237
+              228
+              216
+            ]; # slightly darker cream (#ede4d8)
+            emphasis_0 = [
+              209
+              72
+              48
+            ]; # red/numbers
+            emphasis_1 = [
+              0
+              135
+              95
+            ]; # green/strings
+            emphasis_2 = [
+              215
+              135
+              95
+            ]; # orange/definitions
+            emphasis_3 = [
+              122
+              74
+              148
+            ]; # purple/constants
           };
 
           frame_selected = {
-            base = [ 61 95 154 ];      # steel blue (#3d5f9a)
-            background = [ 245 237 229 ]; # cream (#f5ede5)
-            emphasis_0 = [ 209 72 48 ];   # red/numbers
-            emphasis_1 = [ 0 135 95 ];    # green/strings
-            emphasis_2 = [ 215 135 95 ];  # orange/definitions
-            emphasis_3 = [ 122 74 148 ];  # purple/constants
+            base = [
+              61
+              95
+              154
+            ]; # steel blue (#3d5f9a)
+            background = [
+              245
+              237
+              229
+            ]; # cream (#f5ede5)
+            emphasis_0 = [
+              209
+              72
+              48
+            ]; # red/numbers
+            emphasis_1 = [
+              0
+              135
+              95
+            ]; # green/strings
+            emphasis_2 = [
+              215
+              135
+              95
+            ]; # orange/definitions
+            emphasis_3 = [
+              122
+              74
+              148
+            ]; # purple/constants
           };
 
           frame_unselected = {
-            base = [ 138 138 138 ];      # dimmed gray (#8a8a8a)
-            background = [ 245 237 229 ]; # cream (#f5ede5)
-            emphasis_0 = [ 209 72 48 ];   # red/numbers
-            emphasis_1 = [ 0 135 95 ];    # green/strings
-            emphasis_2 = [ 215 135 95 ];  # orange/definitions
-            emphasis_3 = [ 122 74 148 ];  # purple/constants
+            base = [
+              138
+              138
+              138
+            ]; # dimmed gray (#8a8a8a)
+            background = [
+              245
+              237
+              229
+            ]; # cream (#f5ede5)
+            emphasis_0 = [
+              209
+              72
+              48
+            ]; # red/numbers
+            emphasis_1 = [
+              0
+              135
+              95
+            ]; # green/strings
+            emphasis_2 = [
+              215
+              135
+              95
+            ]; # orange/definitions
+            emphasis_3 = [
+              122
+              74
+              148
+            ]; # purple/constants
           };
         };
       };

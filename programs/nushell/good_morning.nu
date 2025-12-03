@@ -68,18 +68,32 @@ rsync -av --delete --exclude='.*' ($MINE + "/") $WORK
 let $diff = jj diff --no-pager
 if ($diff | str length) > 0 {
     print "🤖 Generating commit summary..."
-    let $commit_summary = (jj show | claude --print "Create a git commit message following these rules:
-1. Subject line: max 50 chars (72 hard limit), capitalize first word, no period at end
-2. Use imperative mood (e.g., 'Add feature' not 'Added feature')
-3. Test: 'If applied, this commit will [your subject]' should read correctly
-4. Separate subject from body with blank line
-5. Body: wrap at 72 chars, explain WHAT and WHY (not how)
-6. Focus on the changes shown in the diff
+    let $commit_summary = (jj diff --git --no-pager | claude --print "CRITICAL INSTRUCTIONS:
+1. Write ONLY the actual commit message - DO NOT write meta-commentary
+2. DO NOT write: 'I'll create...', 'Looking at the diff...', 'This commit will...', 'Based on the changes...'
+3. Your entire output IS the commit message itself - nothing else
+4. DO NOT describe your process of writing the message
+5. Start directly with the imperative verb describing the change
 
-Format:
-<Subject line>
+RULES (from cbea.ms/git-commit):
+- Subject: ≤50 chars ideal (72 hard max), imperative mood, capitalized, no period
+- Test: 'If applied, this commit will [your subject]' must read correctly
+- Body: blank line after subject, wrap at 72 chars, explain WHAT and WHY (not HOW)
+- Focus on the actual code changes shown in the diff
 
-<Body explaining what changed and why>")
+BAD EXAMPLES (meta-commentary - NEVER do this):
+❌ 'I'll create a git commit message following the rules...'
+❌ 'Looking at the diff, I can see configuration changes...'
+❌ 'This commit will update the dependencies...'
+❌ 'Based on the changes, I suggest...'
+
+GOOD EXAMPLE (actual commit message):
+✓ Update home-manager dependencies
+
+Updates flake dependencies to latest versions to incorporate
+security patches and compatibility fixes for the build system.
+
+Now write ONLY the commit message for these changes:")
 
     print "📝 Updating commit description..."
     jj describe -m $commit_summary

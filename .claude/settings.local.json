@@ -4,7 +4,9 @@
       "Skill(using-jj)",
       "Skill(superpowers:writing-skills)",
       "WebSearch",
-      "WebFetch(domain:github.com)"
+      "WebFetch(domain:github.com)",
+      "Bash(claude --print \"Use the Read tool to read /etc/hosts and tell me what''''s in it\")",
+      "Bash(claude --print --dangerously-skip-permissions \"Use the Task tool to dispatch a subagent to say hello\")"
     ],
     "deny": [],
     "ask": []
