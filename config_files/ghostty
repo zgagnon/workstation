@@ -16,5 +16,9 @@ cursor-opacity = 0.8
 # Font ligatures for programming symbols
 font-feature = "+liga"
 
-# login shell
-command = nu
+# Unicode width compatibility with nushell/jj
+grapheme-width-method = legacy
+
+# login shell — launch through bash login to inherit nix PATH
+shell-integration = none
+command = /bin/bash -l -c "exec /Users/zell/.nix-profile/bin/nu"
