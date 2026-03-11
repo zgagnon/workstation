@@ -25,6 +25,10 @@
 
           # Necessary for using flakes on this system.
           nix.settings.experimental-features = "nix-command flakes";
+          nix.settings.trusted-users = [
+            "root"
+            "zell"
+          ];
           nixpkgs.config.allowUnfree = true;
           nixpkgs.config.allowBroken = true;
           # Enable alternative shell support in nixdarwin.
@@ -35,7 +39,7 @@
           users.users.zell = {
             name = "zell";
             home = "/Users/zell";
-            shell = pkgs.nushell;
+            shell = pkgs.zsh;
           };
           # Used for backwards compatibility, please read the changelog before changing.
           # $ darwin-rebuild changelog
@@ -71,12 +75,14 @@
             "arc"
             "orbstack"
             "raycast"
+            "claude-code"
             "slack"
             "logseq"
             "tandem"
             "tuple"
             "soundsource"
             "ghostty"
+            "superwhisper"
           ];
         };
       };
