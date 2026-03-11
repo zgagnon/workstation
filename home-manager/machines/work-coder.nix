@@ -31,7 +31,6 @@ home-manager.lib.homeManagerConfiguration rec {
           email = "zoe@zgagnon.com";
           home-config = "/home/coder/workspace/workstations/home/zgagnon/home-manager";
           uniquePkgs = with pkgs; [
-            emacs
           ];
         };
       };

@@ -6,9 +6,6 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     home-manager = {
       url = "github:nix-community/home-manager";
-    };
-    emacs-overlay = {
-      url = "github:nix-community/emacs-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -17,7 +14,6 @@
     {
       nixpkgs,
       home-manager,
-      emacs-overlay,
       ...
     }:
     let
@@ -29,7 +25,6 @@
             allowUnfree = true;
           };
           overlays = [
-            emacs-overlay.overlays.default
             (final: prev: {
               # Import custom packages
               fasder = final.callPackage ./../packages/fasder.nix { };

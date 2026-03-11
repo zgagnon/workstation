@@ -1,15 +1,19 @@
 {
   "permissions": {
     "allow": [
-      "Skill(using-jj)",
-      "Skill(superpowers:writing-skills)",
-      "WebSearch",
-      "WebFetch(domain:github.com)",
-      "Bash(claude --print \"Use the Read tool to read /etc/hosts and tell me what''''s in it\")",
-      "Bash(claude --print --dangerously-skip-permissions \"Use the Task tool to dispatch a subagent to say hello\")"
-    ],
-    "deny": [],
-    "ask": []
+      "Read(//Users/zell/mo/yakthang/src/yaks/**)",
+      "Read(//Users/zell/mo/yakthang/src/**)",
+      "Bash(nix:*)",
+      "Bash(grep -E \"\\\\.nix$\")",
+      "Read(//Users/zell/.config/ghostty/themes/**)",
+      "Read(//Users/zell/.config/ghostty/**)",
+      "Bash(aerospace list-apps *)",
+      "Bash(aerospace list-windows *)",
+      "Bash(aerospace focus *)",
+      "Bash(aerospace layout *)",
+      "Bash(aerospace --help)",
+      "Bash(echo \"exit=$?\")"
+    ]
   },
   "enableAllProjectMcpServers": true,
   "enabledMcpjsonServers": [

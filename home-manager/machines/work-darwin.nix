@@ -34,9 +34,8 @@ home-manager.lib.homeManagerConfiguration rec {
           email = "zoe@zgagnon.com";
           home-config = "/Users/zell/config/home-manager";
           uniquePkgs = with pkgs; [
+            devenv
             direnv
-            emacs
-            anki-bin
           ];
         };
       }

@@ -33,7 +33,6 @@ home-manager.lib.homeManagerConfiguration rec {
     uniquePkgs = with pkgs; [
       discord
       slack
-      emacs
       kitty
     ];
   };

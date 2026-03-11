@@ -77,4 +77,4 @@ echo "   Future updates: run 'home-manager switch --flake .' from this directory
 echo "   Edit your configuration in: $SCRIPT_DIR/home.nix"
 echo "   Add programs by editing: $SCRIPT_DIR/flake.nix"
 echo ""
-echo "🎉 Bootstrap complete! The activation script will handle Doom Emacs setup."
+echo "🎉 Bootstrap complete!"

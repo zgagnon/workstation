@@ -16,14 +16,28 @@ in
 
   programs.ssh = {
     enable = true; # Global SSH settings
+    enableDefaultConfig = false;
     extraConfig = ''
       Include ~/.ssh/1Password/config
-
-      # Use 1Password SSH agent
-      IdentityAgent "/Users/zell/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
     '';
 
     matchBlocks = {
+      "*" = {
+        forwardAgent = false;
+        addKeysToAgent = "no";
+        compression = false;
+        serverAliveInterval = 0;
+        serverAliveCountMax = 3;
+        hashKnownHosts = false;
+        userKnownHostsFile = "~/.ssh/known_hosts";
+        controlMaster = "no";
+        controlPath = "~/.ssh/master-%r@%n:%p";
+        controlPersist = "no";
+        extraOptions = {
+          IdentityAgent = "\"/Users/zell/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock\"";
+        };
+      };
+
       "home-assistant" = homeAssistant;
       "hass" = homeAssistant;
 

@@ -43,7 +43,7 @@
         ];
       };
       ui = {
-        editor = "emacs -nw";
+        editor = "vim";
         default-command = [
           "log"
           "--no-pager"

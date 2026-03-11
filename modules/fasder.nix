@@ -74,7 +74,8 @@ let
         if ($result | is-empty) {
             print $"No file found for: ($query | str join ' ')"
         } else {
-            ^${cfg.editor} $result
+            let _ed = ($env.EDITOR? | default "nvim")
+            ^$_ed $result
         }
     }
 
@@ -86,7 +87,8 @@ let
         } else {
             let selected = ($files | ${cfg.fzfCommand} --height=40% --reverse)
             if not ($selected | is-empty) {
-                ^${cfg.editor} $selected
+                let _ed = ($env.EDITOR? | default "nvim")
+                ^$_ed $selected
             }
         }
     }

@@ -1,6 +1,6 @@
 def create_left_prompt [] {
-  let path_segment = if (($env.PWD | str starts-with $nu.home-path) == true) {
-    $env.PWD | str replace $nu.home-path "~"
+  let path_segment = if (($env.PWD | str starts-with $nu.home-dir) == true) {
+    $env.PWD | str replace $nu.home-dir "~"
   } else { $env.PWD }
   
   let jj_check = (do -i { jj status } | complete)
@@ -59,7 +59,7 @@ def create_left_prompt [] {
   })
 
 
-  let os_icon = match $nu.os-info {
+  let os_icon = match $nu.os-info.name {
       "macos" => "🍎"
       "linux" => "🐧"
       _ => "nu"
@@ -68,11 +68,11 @@ def create_left_prompt [] {
     (ansi { fg: "#ff479c" })
     $os_icon
     (ansi reset)
-    (ansi { fg: "#61afef" })
+    (ansi { fg: "#0078d4" })
     " "
     $path_segment
     (ansi reset)
-    (ansi { fg: "#95ffa4" })
+    (ansi { fg: "#107c10" })
     $jj_info
     (ansi reset)
     (ansi { fg: "#f97316" })

@@ -5,10 +5,11 @@
   programs.aerospace = {
     enable = true;
     launchd.enable = true;
-    userSettings = {
+    settings = {
       after-login-command = [ ];
       after-startup-command = [
         "exec-and-forget borders active_color=0xffe1e3e4 inactive_color=0xff494d64 width=5.0"
+        "exec-and-forget for id in $(aerospace list-windows --monitor all --app-bundle-id tandem.app --format '%{window-id}'); do aerospace layout --window-id \"$id\" floating; done"
       ];
       start-at-login = true;
       enable-normalization-flatten-containers = true;
@@ -37,10 +38,10 @@
       mode.main.binding = {
         cmd-ctrl-alt-period = "layout tiles horizontal vertical";
         cmd-ctrl-alt-comma = "layout accordion horizontal vertical";
-        cmd-ctrl-alt-left = "focus left";
-        cmd-ctrl-alt-down = "focus down";
-        cmd-ctrl-alt-up = "focus up";
-        cmd-ctrl-alt-right = "focus right";
+        cmd-ctrl-alt-left = "focus --ignore-floating left";
+        cmd-ctrl-alt-down = "focus --ignore-floating down";
+        cmd-ctrl-alt-up = "focus --ignore-floating up";
+        cmd-ctrl-alt-right = "focus --ignore-floating right";
 
         cmd-ctrl-alt-shift-left = "move left";
         cmd-ctrl-alt-shift-down = "move down";
@@ -97,7 +98,7 @@
       on-window-detected = [
         {
           "if" = {
-            app-id = "tandem.app";
+            app-name-regex-substring = "(?i)tandem";
           };
           run = "layout floating";
         }

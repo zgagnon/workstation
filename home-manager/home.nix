@@ -18,7 +18,7 @@
     };
   };
 
-  fonts.fontconfig.enable = true;
+  fonts.fontconfig.enable = false;
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
   #  home.username = "zell";
@@ -38,15 +38,6 @@
   # environment.
   home.packages =
     let
-      beadsSha = "eiYt4RM2bdyR4ZAGsi72MW5t54DPgIAbuBVMlWyUb4M=";
-      beadsSrc = pkgs.fetchFromGitHub {
-        owner = "steveyegge";
-        repo = "beads";
-        rev = "main";
-        sha256 = beadsSha;
-      };
-      beads = pkgs.callPackage "${beadsSrc}/default.nix" { self = beadsSrc; };
-      claude-code = pkgs.callPackage ./../packages/claude-code.nix { };
       gdk = pkgs.google-cloud-sdk.withExtraComponents (
         with pkgs.google-cloud-sdk.components;
         [
@@ -59,14 +50,13 @@
       _1password-cli
       action-validator
       bat
-      beads
       beam27Packages.elixir-ls
       bun
+      btop
       cabal-install
-      claude-code
+      # claude-code
       cmake
       coreutils
-      emacs-lsp-booster
       erlfmt
       eza
       fd
@@ -81,20 +71,21 @@
       haskellPackages.hoogle
       haskellPackages.lsp
       just
+      k3d
       k9s
       kubectx
       kubernetes-helm
-      nerd-fonts.fira-code
-      nerd-fonts.jetbrains-mono
+      # nerd-fonts.fira-code
+      # nerd-fonts.jetbrains-mono
       nufmt
       nil
       nixfmt-rfc-style
-      nodePackages.js-beautify
-      nodePackages.typescript-language-server
+      typescript-language-server
       nodejs
       obsidian
       pandoc
       ripgrep
+      rustup
       sc-im
       shellcheck
       shfmt
@@ -104,6 +95,7 @@
       tree
       tree-sitter
       tree-sitter-grammars.tree-sitter-heex
+      tilt
       uv
       zellij
     ]
@@ -124,6 +116,12 @@
     # '';
     ".config/ghostty/config" = {
       source = ./../config_files/ghostty;
+    };
+    ".config/ghostty/themes/biscotty" = {
+      source = config.lib.file.mkOutOfStoreSymlink "/Users/zell/config/config_files/ghostty-themes/biscotty";
+    };
+    ".config/ghostty/themes/pastel-neon-night" = {
+      source = config.lib.file.mkOutOfStoreSymlink "/Users/zell/config/config_files/ghostty-themes/pastel-neon-night";
     };
     ".config/zellij/layouts/coder.kdl" = {
       text = ''
@@ -158,7 +156,7 @@
         }
       '';
     };
-    ".bin/coder.sh" = {
+".bin/coder.sh" = {
       text = ''
         #!/bin/bash
         # Coder script
@@ -221,10 +219,12 @@
   #
   home.sessionVariables = {
     # EDITOR = "emacs";
+    CARGO_HOME = "$HOME/.cargo";
+    RUSTUP_HOME = "$HOME/.rustup";
   };
 
   home.sessionPath = [
-    "$HOME/.emacs.d/bin"
+    "$HOME/.cargo/bin"
   ];
 
   services.syncthing = {
@@ -237,7 +237,7 @@
     settings = {
       theme = "biscotty";
       default_mode = "normal";
-      default_shell = "nu";
+      default_shell = "zsh";
       themes = {
         biscotty = {
           fg = "#3a3a3a";
@@ -251,6 +251,26 @@
           cyan = "#00875f";
           white = "#f5ede5";
           orange = "#d7875f";
+
+          # New-style theme components — yak-map reads text_unselected.background
+          # via ModeUpdate to detect light mode and activate the LIGHT palette.
+          text_unselected = {
+            base = [ 58 58 58 ];
+            background = [ 245 237 229 ]; # #f5ede5 — triggers light mode detection
+            emphasis_0 = [ 209 72 48 ];
+            emphasis_1 = [ 0 135 95 ];
+            emphasis_2 = [ 215 135 95 ];
+            emphasis_3 = [ 122 74 148 ];
+          };
+
+          text_selected = {
+            base = [ 58 58 58 ];
+            background = [ 229 217 204 ]; # #e5d9cc selection
+            emphasis_0 = [ 209 72 48 ];
+            emphasis_1 = [ 0 135 95 ];
+            emphasis_2 = [ 215 135 95 ];
+            emphasis_3 = [ 122 74 148 ];
+          };
 
           ribbon_selected = {
             base = [
@@ -320,35 +340,27 @@
 
           frame_selected = {
             base = [
-              61
-              95
-              154
-            ]; # steel blue (#3d5f9a)
-            background = [
-              245
-              237
-              229
-            ]; # cream (#f5ede5)
+              82
+              118
+              161
+            ]; # #5276a1 cursor blue
+            background = [ 0 ];
             emphasis_0 = [
               209
               72
               48
-            ]; # red/numbers
+            ]; # red
             emphasis_1 = [
               0
               135
               95
-            ]; # green/strings
+            ]; # green
             emphasis_2 = [
-              215
-              135
-              95
-            ]; # orange/definitions
-            emphasis_3 = [
               122
               74
               148
-            ]; # purple/constants
+            ]; # purple
+            emphasis_3 = [ 0 ];
           };
 
           frame_unselected = {
@@ -357,11 +369,7 @@
               138
               138
             ]; # dimmed gray (#8a8a8a)
-            background = [
-              245
-              237
-              229
-            ]; # cream (#f5ede5)
+            background = [ 0 ];
             emphasis_0 = [
               209
               72
@@ -373,15 +381,96 @@
               95
             ]; # green/strings
             emphasis_2 = [
-              215
-              135
-              95
-            ]; # orange/definitions
-            emphasis_3 = [
               122
               74
               148
-            ]; # purple/constants
+            ]; # purple
+            emphasis_3 = [ 0 ];
+          };
+
+          frame_highlight = {
+            base = [ 209 72 48 ];
+            background = [ 0 ];
+            emphasis_0 = [ 122 74 148 ];
+            emphasis_1 = [ 209 72 48 ];
+            emphasis_2 = [ 209 72 48 ];
+            emphasis_3 = [ 209 72 48 ];
+          };
+
+          table_title = {
+            base = [ 82 118 161 ];
+            background = [ 0 ];
+            emphasis_0 = [ 209 72 48 ];
+            emphasis_1 = [ 0 135 95 ];
+            emphasis_2 = [ 215 135 95 ];
+            emphasis_3 = [ 122 74 148 ];
+          };
+
+          table_cell_selected = {
+            base = [ 58 58 58 ];
+            background = [ 229 217 204 ];
+            emphasis_0 = [ 209 72 48 ];
+            emphasis_1 = [ 0 135 95 ];
+            emphasis_2 = [ 215 135 95 ];
+            emphasis_3 = [ 122 74 148 ];
+          };
+
+          table_cell_unselected = {
+            base = [ 58 58 58 ];
+            background = [ 245 237 229 ];
+            emphasis_0 = [ 209 72 48 ];
+            emphasis_1 = [ 0 135 95 ];
+            emphasis_2 = [ 215 135 95 ];
+            emphasis_3 = [ 122 74 148 ];
+          };
+
+          list_selected = {
+            base = [ 58 58 58 ];
+            background = [ 229 217 204 ];
+            emphasis_0 = [ 209 72 48 ];
+            emphasis_1 = [ 0 135 95 ];
+            emphasis_2 = [ 215 135 95 ];
+            emphasis_3 = [ 122 74 148 ];
+          };
+
+          list_unselected = {
+            base = [ 58 58 58 ];
+            background = [ 245 237 229 ];
+            emphasis_0 = [ 209 72 48 ];
+            emphasis_1 = [ 0 135 95 ];
+            emphasis_2 = [ 215 135 95 ];
+            emphasis_3 = [ 122 74 148 ];
+          };
+
+          exit_code_success = {
+            base = [ 0 135 95 ];
+            background = [ 0 ];
+            emphasis_0 = [ 0 135 95 ];
+            emphasis_1 = [ 58 58 58 ];
+            emphasis_2 = [ 122 74 148 ];
+            emphasis_3 = [ 0 135 95 ];
+          };
+
+          exit_code_error = {
+            base = [ 209 72 48 ];
+            background = [ 0 ];
+            emphasis_0 = [ 215 135 95 ];
+            emphasis_1 = [ 0 ];
+            emphasis_2 = [ 0 ];
+            emphasis_3 = [ 0 ];
+          };
+
+          multiplayer_user_colors = {
+            player_1 = [ 122 74 148 ];
+            player_2 = [ 0 135 95 ];
+            player_3 = [ 0 ];
+            player_4 = [ 215 135 95 ];
+            player_5 = [ 0 135 95 ];
+            player_6 = [ 0 ];
+            player_7 = [ 209 72 48 ];
+            player_8 = [ 0 ];
+            player_9 = [ 0 ];
+            player_10 = [ 0 ];
           };
         };
       };
@@ -396,7 +485,6 @@
     enableTracking = true;
     enableZshIntegration = true;
     enableNushellIntegration = true;
-    editor = "emacs -nw"; # or your preferred editor
     fzfCommand = "fzf";
   };
 
@@ -437,62 +525,17 @@
 
         # Register MCP server globally with Claude Code
         echo "🔧 Registering MCP server globally with Claude Code..."
-        ${pkgs.claude-code}/bin/claude mcp add --scope user --transport stdio run-typescript-skills bun run "$MCP_REPO/src/mcp-bun.ts"
+        if command -v claude &>/dev/null; then
+          claude mcp add --scope user --transport stdio run-typescript-skills bun run "$MCP_REPO/src/mcp-bun.ts"
+        else
+          echo "⚠️  claude not found in PATH, skipping MCP registration (run manually after switch)"
+        fi
       '';
     in
     config.lib.dag.entryAfter [ "writeBoundary" ] ''
       export PATH="${
         pkgs.lib.makeBinPath [
           pkgs.bun
-          pkgs.git
-          pkgs.openssh
-          pkgs.jujutsu
-          pkgs.claude-code
-        ]
-      }:$PATH"
-      $DRY_RUN_CMD ${setupScript}
-    '';
-
-  # Activation script to clone Doom Emacs configuration and install Doom using jj
-  home.activation.setupDoomEmacs =
-    let
-      setupScript = pkgs.writeShellScript "setup-doom-emacs" ''
-        set -euo pipefail
-
-        DOOM_CONFIG_DIR="$HOME/.doom.d"
-        DOOM_EMACS_DIR="$HOME/.emacs.d"
-
-        # Setup Doom Emacs configuration
-        if [[ ! -d "$DOOM_CONFIG_DIR" ]]; then
-          echo "📥 Cloning Doom Emacs configuration with jj..."
-          ${pkgs.jujutsu}/bin/jj git clone git@github.com:zgagnon/doom-emacs.git "$DOOM_CONFIG_DIR"
-        elif [[ -d "$DOOM_CONFIG_DIR/.jj" ]]; then
-          echo "🔄 Updating Doom Emacs configuration with jj..."
-          cd "$DOOM_CONFIG_DIR" && ${pkgs.jujutsu}/bin/jj git fetch
-        elif [[ -d "$DOOM_CONFIG_DIR/.git" ]]; then
-          echo "🔄 Converting existing git repo to jj..."
-          cd "$DOOM_CONFIG_DIR" && ${pkgs.jujutsu}/bin/jj git init --git-repo=.
-          ${pkgs.jujutsu}/bin/jj git fetch
-        else
-          echo "⚠️  $DOOM_CONFIG_DIR exists but is not a valid repository"
-        fi
-
-        # Setup Doom Emacs itself
-        if [[ ! -d "$DOOM_EMACS_DIR" ]]; then
-          echo "📥 Installing Doom Emacs with jj..."
-          ${pkgs.jujutsu}/bin/jj git clone git@github.com:doomemacs/doomemacs.git "$DOOM_EMACS_DIR"
-          echo "🔨 Installing Doom Emacs..."
-          "$DOOM_EMACS_DIR/bin/doom" install --no-env
-        else
-          echo "🔄 Doom Emacs already installed, syncing configuration..."
-          "$DOOM_EMACS_DIR/bin/doom" sync
-        fi
-      '';
-    in
-    config.lib.dag.entryAfter [ "writeBoundary" ] ''
-      export PATH="${
-        pkgs.lib.makeBinPath [
-          pkgs.emacs
           pkgs.git
           pkgs.openssh
           pkgs.jujutsu
@@ -540,6 +583,21 @@
       }:$PATH"
       $DRY_RUN_CMD ${setupScript}
     '';
+
+  # macOS + multi-user Nix: programs.ssh generates ~/.ssh/config as a symlink
+  # into the Nix store. Store files are owned by root:wheel. SSH requires the
+  # config to be owned by the current user, so JetBrains Gateway (and anything
+  # else using a strict SSH implementation) gets "Permission denied".
+  #
+  # Fix: after writeBoundary places the symlink, replace it with a real file
+  # owned by the user. home-manager switch re-runs this each time.
+  home.activation.fixSshConfigPermissions = config.lib.dag.entryAfter [ "writeBoundary" ] ''
+    if [ -L "$HOME/.ssh/config" ]; then
+      $DRY_RUN_CMD cp -f "$(readlink -f "$HOME/.ssh/config")" "$HOME/.ssh/config.tmp"
+      $DRY_RUN_CMD mv -f "$HOME/.ssh/config.tmp" "$HOME/.ssh/config"
+      $DRY_RUN_CMD chmod 600 "$HOME/.ssh/config"
+    fi
+  '';
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;

@@ -1,0 +1,29 @@
+# Pastel Neon Night - dark Ghostty theme with bright pastel accents
+
+background = #101018
+foreground = #f4f0ff
+cursor-color = #f5c2e7
+cursor-text = #101018
+
+selection-background = #3b3658
+selection-foreground = #ffffff
+
+# Standard ANSI colors (0-7)
+palette = 0=#1b1b2b
+palette = 1=#ff8ba7
+palette = 2=#a6e3a1
+palette = 3=#f9e2af
+palette = 4=#89b4fa
+palette = 5=#f5c2e7
+palette = 6=#94e2d5
+palette = 7=#cdd6f4
+
+# Bright ANSI colors (8-15)
+palette = 8=#6c7086
+palette = 9=#ffa6c1
+palette = 10=#b9fbc0
+palette = 11=#fde68a
+palette = 12=#a5b4fc
+palette = 13=#f0abfc
+palette = 14=#a7f3d0
+palette = 15=#ffffff
