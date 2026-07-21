@@ -18,8 +18,6 @@ home-manager.lib.homeManagerConfiguration rec {
 "./../programs/nushell.nix"
 "./../programs/raycast.nix"
 "./../programs/ssh.nix"
-"./../programs/starship.nix"
-"./../programs/zoxide.nix"
 "./../programs/zsh.nix"
 "/home.nix"
         ];

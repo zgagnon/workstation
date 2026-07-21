@@ -48,54 +48,30 @@
     with pkgs;
     [
       _1password-cli
-      action-validator
-      bat
-      beam27Packages.elixir-ls
       bun
       btop
-      cabal-install
       # claude-code
-      cmake
-      coreutils
-      erlfmt
-      eza
       fd
-      figlet
       fira-code
       fzf
-      gcc
       gdk
       gh
-      glibtool
-      gnugrep
-      haskellPackages.hoogle
-      haskellPackages.lsp
       just
       k3d
       k9s
-      kubectx
       kubernetes-helm
       # nerd-fonts.fira-code
       # nerd-fonts.jetbrains-mono
       nufmt
-      nil
       nixfmt-rfc-style
       typescript-language-server
       nodejs
       obsidian
       pandoc
       ripgrep
-      rustup
-      sc-im
       shellcheck
       shfmt
-      stgit
-      stylelint
       topiary
-      tree
-      tree-sitter
-      tree-sitter-grammars.tree-sitter-heex
-      tilt
       uv
       zellij
     ]
@@ -487,62 +463,6 @@
     enableNushellIntegration = true;
     fzfCommand = "fzf";
   };
-
-  # Activation script to setup MCP servers globally
-  home.activation.setupMcpServers =
-    let
-      setupScript = pkgs.writeShellScript "setup-mcp-servers" ''
-        set -euo pipefail
-
-        MCP_SERVERS_DIR="$HOME/mcp-servers"
-        MCP_REPO="$MCP_SERVERS_DIR/run-typescript-skills-mcp"
-
-        # Ensure mcp-servers directory exists
-        mkdir -p "$MCP_SERVERS_DIR"
-
-        # Setup run-typescript-skills-mcp
-        if [[ ! -d "$MCP_REPO" ]]; then
-          echo "📥 Cloning run-typescript-skills-mcp with jj..."
-          ${pkgs.jujutsu}/bin/jj git clone git@github.com:zgagnon/run-typescript-skills-mcp.git "$MCP_REPO"
-          echo "📂 Checking out main branch..."
-          cd "$MCP_REPO" && ${pkgs.jujutsu}/bin/jj new main
-        elif [[ -d "$MCP_REPO/.jj" ]]; then
-          echo "🔄 Updating run-typescript-skills-mcp with jj..."
-          cd "$MCP_REPO" && ${pkgs.jujutsu}/bin/jj git fetch
-        elif [[ -d "$MCP_REPO/.git" ]]; then
-          echo "🔄 Converting existing git repo to jj..."
-          cd "$MCP_REPO" && ${pkgs.jujutsu}/bin/jj git init --git-repo=.
-          ${pkgs.jujutsu}/bin/jj git fetch
-        else
-          echo "⚠️  $MCP_REPO exists but is not a valid repository"
-        fi
-
-        # Install dependencies if package.json exists
-        if [[ -f "$MCP_REPO/package.json" ]]; then
-          echo "📦 Installing MCP server dependencies..."
-          cd "$MCP_REPO" && ${pkgs.bun}/bin/bun install
-        fi
-
-        # Register MCP server globally with Claude Code
-        echo "🔧 Registering MCP server globally with Claude Code..."
-        if command -v claude &>/dev/null; then
-          claude mcp add --scope user --transport stdio run-typescript-skills bun run "$MCP_REPO/src/mcp-bun.ts"
-        else
-          echo "⚠️  claude not found in PATH, skipping MCP registration (run manually after switch)"
-        fi
-      '';
-    in
-    config.lib.dag.entryAfter [ "writeBoundary" ] ''
-      export PATH="${
-        pkgs.lib.makeBinPath [
-          pkgs.bun
-          pkgs.git
-          pkgs.openssh
-          pkgs.jujutsu
-        ]
-      }:$PATH"
-      $DRY_RUN_CMD ${setupScript}
-    '';
 
   # Activation script to setup topiary-nushell plugin
   # Clones topiary-nushell to $XDG_CONFIG_HOME/topiary (standard location)

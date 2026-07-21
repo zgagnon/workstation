@@ -73,17 +73,16 @@
             "google-chrome"
             "notion"
             "discord"
-            "arc"
             "orbstack"
             "raycast"
             "claude-code"
             "slack"
-            "logseq"
             "tandem"
             "tuple"
             "soundsource"
             "ghostty"
             "superwhisper"
+            "cmux"
           ];
         };
       };
