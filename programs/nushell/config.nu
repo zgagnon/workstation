@@ -125,4 +125,5 @@ $env.LS_COLORS = "rs=0:di=38;2;0;120;212:ln=38;2;0;120;212:mh=00:pi=40;33:so=38;
 $env.PATH = ($env.PATH | split row (char esep) |
   append ($nu.home-dir + '/.local/bin') |
   append ($nu.home-dir + '/.emacs.d/bin') |
-  append ($nu.home-dir + '/.npm-global/bin'))
+  append ($nu.home-dir + '/.npm-global/bin') |
+  append '/Applications/cmux.app/Contents/Resources/bin')

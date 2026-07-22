@@ -201,6 +201,7 @@
 
   home.sessionPath = [
     "$HOME/.cargo/bin"
+    "/Applications/cmux.app/Contents/Resources/bin"
   ];
 
   services.syncthing = {
